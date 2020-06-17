@@ -4,7 +4,6 @@ import Appointment from '../models/Appointment';
 
 const appointmentsRouter = Router();
 
-
 const appointments: Appointment[] = [];
 
 appointmentsRouter.post('/', (request, response) => {
@@ -13,11 +12,13 @@ appointmentsRouter.post('/', (request, response) => {
     const parsedDate = startOfHour(parseISO(date));
 
     const findAppointmentInSameDate = appointments.find(appointment =>
-        isEqual(parsedDate, appointment.date)
+        isEqual(parsedDate, appointment.date),
     );
 
     if (findAppointmentInSameDate) {
-        return response.status(400).json({ message: 'This appointment is alredy booked'})
+        return response
+            .status(400)
+            .json({ message: 'This appointment is alredy booked' });
     }
 
     const appointment = new Appointment(provider, parsedDate);
